@@ -53,13 +53,13 @@ const displayContents = elements => {
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="d-flex">
-                    <div class="card" style="width: 4rem;">
-                    <img src="${element.author.img ? element.author.img : ''}" class="card-img-top" alt="...">
-                </div>
-                <div>
-                        <p class="card-text ms-4 text-start">${element.author.name ? element.author.name : 'No data available'}</p>
-                        <p class="card-text ms-4 text-start">${element.author.published_date}</p>
-                </div>
+                        <div class="card" style="width: 4rem;">
+                            <img src="${element.author.img ? element.author.img : ''}" class="card-img-top" alt="...">
+                        </div>
+                        <div>
+                            <p class="card-text ms-4 text-start">${element.author.name ? element.author.name : 'No data available'}</p>
+                            <p class="card-text ms-4 text-start">${element.author.published_date}</p>
+                        </div>
                     </div>
                     <div class="">
                         <p class ="card-text ms-5">${element.total_view ? element.total_view + ' ' + 'views' : 'No data available'}</p>
@@ -98,30 +98,11 @@ const loadNewsId = async (id) => {
 const displayNewsId = id => {
     console.log(id);
     const modalTitle = document.getElementById('exampleModalLabel');
-    modalTitle.innerText = id.author['name'];
+    modalTitle.innerText = id.author['name'] ? id.author.name : 'No name found';
     const modalBody = document.getElementById('modalBody')
     modalBody.innerText = id.details.slice(0, 200) + '...';
-
-    // ids.forEach(id => {
-    //     const newsModalDiv = document.createElement('div');
-    //     newsModalDiv.classList.add('modal-dialog')
-    //     newsModalDiv.innerHTML = `
-    //     <div class="modal-content">
-    //         <div class="modal-header">
-    //             <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-    //             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    //         </div>
-    //         <div class="modal-body">
-    //             ...
-    //         </div>
-    //         <div class="modal-footer">
-    //             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    //             <button type="button" class="btn btn-primary">Save changes</button>
-    //         </div>
-    //     </div>
-    // `;
-    //     newsIdModal.appendChild(newsModalDiv);
-    // })
+    const modalFooter = document.getElementById('published-date')
+    modalFooter.innerText = 'Published Date: ' + id.author.published_date;
 }
 
 loadNewsCategories();
