@@ -36,7 +36,7 @@ const loadContents = async (category_id) => {
 }
 
 const displayContents = elements => {
-    // console.log(elements)
+    console.log(elements)
     const categoryIdContainer = document.getElementById('category-id-container');
     categoryIdContainer.innerHTML = ``;
     elements.forEach(element => {
@@ -49,21 +49,23 @@ const displayContents = elements => {
             <div class="card-body p-3">
                 <div style="height: 200px;">
                     <h5 class="card-title">${element.title}</h5>
-                    <p class="card-text"> ${element.details ? element.details.slice(0, 600) : 'No details found'}.... </p>
+                    <p class="card-text text-start"> ${element.details ? element.details.slice(0, 600) : 'No details found'}.... </p>
                 </div>
-                <div class="d-flex ">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex">
                     <div class="card" style="width: 4rem;">
-                        <img src="${element.author.img ? element.author.img : ''}" class="card-img-top" alt="...">
+                    <img src="${element.author.img ? element.author.img : ''}" class="card-img-top" alt="...">
+                </div>
+                <div>
+                        <p class="card-text ms-4 text-start">${element.author.name ? element.author.name : 'No data available'}</p>
+                        <p class="card-text ms-4 text-start">${element.author.published_date}</p>
+                </div>
                     </div>
-                    <div>
-                            <p class="card-text">${element.author.name ? element.author.name : 'No data available'}</p>
-                            <p class="card-text ms-4">${element.author.published_date}</p>
-                    </div>
-                    <div>
+                    <div class="">
                         <p class ="card-text ms-5">${element.total_view ? element.total_view + ' ' + 'views' : 'No data available'}</p>
                     </div>
-                    <div class="ms-5">
-                   <button onclick ="loadNewsId('${element.news_id}')" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
+                    <div class="">
+                        <button onclick ="loadNewsId('${element._id}')" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
                     </div>
                 </div>
             </div>
@@ -86,17 +88,19 @@ const toggleSpinner = isLoading => {
 }
 
 // modal:
-const loadNewsId = async (news_id) => {
-    const url = ` https://openapi.programming-hero.com/api/news/${news_id}`
-    const res = await fetch(url)
+const loadNewsId = async (id) => {
+    const url = `https://openapi.programming-hero.com/api/news/${id}`
+    const res = await fetch(url);
     const data = await res.json();
-    displayNewsId(data.data);
+    displayNewsId(data.data[0]);
 }
 
 const displayNewsId = id => {
-    console.log(id)
+    console.log(id);
     const modalTitle = document.getElementById('exampleModalLabel');
-    modalTitle.innerText = id.author;
+    modalTitle.innerText = id.author['name'];
+    const modalBody = document.getElementById('modalBody')
+    modalBody.innerText = id.details.slice(0, 200) + '...';
 
     // ids.forEach(id => {
     //     const newsModalDiv = document.createElement('div');
