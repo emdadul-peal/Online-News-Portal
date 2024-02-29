@@ -62,8 +62,10 @@ const displayContents = elements => {
     // console.log(elements)
     const categoryIdContainer = document.getElementById('category-id-container');
     categoryIdContainer.innerHTML = ``;
-    const totalNewsCount = document.getElementById('total-news-count');
-    totalNewsCount.innerHTML = `<p>${elements.length}</p>`;
+
+    //Total news count: 
+    const totalNewsCount = document.getElementById('exampleFormControlInput1');
+    totalNewsCount.placeholder = `${elements.length ? elements.length + ' ' + 'news found for this category' : 'No news found'}`;
 
     elements.forEach(element => {
         // console.log(element);
@@ -130,10 +132,6 @@ const displayNewsId = id => {
     const modalFooter = document.getElementById('published-date')
     modalFooter.innerText = 'Published Date: ' + id.author.published_date;
 }
-
-// sorting views: 
-// const viewArray = ;
-// console.log(viewArray)
 
 loadNewsCategories();
 
