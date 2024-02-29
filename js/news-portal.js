@@ -27,18 +27,44 @@ const displayNewsCategory = (contents) => {
 
 }
 
+// news count : 
+
+
+
+
+
+
 
 const loadContents = async (category_id) => {
     const url = `https://openapi.programming-hero.com/api/news/category/${category_id}`
     const res = await fetch(url);
     const data = await res.json()
-    displayContents(data.data)
+    displayContents(data.data);
+
+    // sorting views count:
+
+    const newArr = data.data.map(view => view.total_view);
+    // console.log(newArr);
+    const sortedArr = newArr.sort(function (a, b) {
+        return b - a;
+    });
+    let finalArr = [];
+    for (const view of sortedArr) {
+        const sortedNews = data.data.find(content => content.total_view === view);
+        // console.log(sortedNews);
+        finalArr.push(sortedNews);
+    }
+    // console.log(finalArr);
+    displayContents(finalArr);
 }
 
 const displayContents = elements => {
-    console.log(elements)
+    // console.log(elements)
     const categoryIdContainer = document.getElementById('category-id-container');
     categoryIdContainer.innerHTML = ``;
+    const totalNewsCount = document.getElementById('total-news-count');
+    totalNewsCount.innerHTML = `<p>${elements.length}</p>`;
+
     elements.forEach(element => {
         // console.log(element);
         const idContainerDiv = document.createElement('div');
@@ -96,7 +122,7 @@ const loadNewsId = async (id) => {
 }
 
 const displayNewsId = id => {
-    console.log(id);
+    // console.log(id);
     const modalTitle = document.getElementById('exampleModalLabel');
     modalTitle.innerText = id.author['name'] ? id.author.name : 'No name found';
     const modalBody = document.getElementById('modalBody')
@@ -105,7 +131,12 @@ const displayNewsId = id => {
     modalFooter.innerText = 'Published Date: ' + id.author.published_date;
 }
 
+// sorting views: 
+// const viewArray = ;
+// console.log(viewArray)
+
 loadNewsCategories();
+
 
 
 
